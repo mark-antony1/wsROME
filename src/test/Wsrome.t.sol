@@ -5,8 +5,8 @@ import "ds-test/test.sol";
 
 import "../wsROME.sol";
 import "../../interfaces/IERC20.sol";
-import "../../interfaces/IOHM.sol";
-import "../../interfaces/IsOHM.sol";
+import "../../interfaces/IROME.sol";
+import "../../interfaces/IsROME.sol";
 
 interface Vm {
     function store(address,bytes32,bytes32) external;
@@ -44,13 +44,13 @@ contract wsROMETest is DSTest {
     function testWrap(uint64 x) public {
         vm.prank(0x31F8Cc382c9898b273eff4e0b7626a6987C846E8);
         x = x/(10**18);
-        IOHM(ROME).mint(address(this), uint256(x));
-        uint256 romeBalance = IOHM(ROME).balanceOf(address(this));
+        IROME(ROME).mint(address(this), uint256(x));
+        uint256 romeBalance = IROME(ROME).balanceOf(address(this));
         assertEq(romeBalance, x);
-        IOHM(ROME).approve(address(staking), x);
+        IROME(ROME).approve(address(staking), x);
 
         IStaking(staking).stake(uint256(x));
-        uint256 sRomeBalance = IsOHM(sROME).balanceOf(address(this));
+        uint256 sRomeBalance = IsROME(sROME).balanceOf(address(this));
         assertLe(0, sRomeBalance);
 
         IwsROME(wsROME).wrap(sRomeBalance);
